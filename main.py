@@ -92,35 +92,28 @@ class QuestionScreen(Screen):
         for n in range(len(self.phrases_A)):
             self.sounds_A.append(SoundLoader.load("./sounds/" + self.phrases_A[n] + ".wav"))
             self.sounds_B.append(SoundLoader.load("./sounds/" + self.phrases_B[n] + ".wav"))
- #   def on_enter(self, *args):
-        # if self.current_question == 0:
-        #     TTS.speak(['Look at these pieces. Look at these pictures. If you put the pieces together, they will make one of the pictures. Press the picture the pieces make.'])
-        # else:
-        #     TTS.speak(['Press the picture the pieces make.'])
- #       self.current_question += 1
- #
 
     def init_circles(self):
         self.ids['left_circle'].opacity = 0
         self.ids['right_circle'].opacity = 0
 
-    def right_circle(self):
+    def show_right_circle(self):
         self.ids['right_circle'].opacity = 1
         self.ids['left_circle'].opacity = 0
         c=self.ids['right_circle']
         print(c)
-        self.anim_circle(c)
+        self.animate_circle(c)
 
-    def left_circle(self):
+    def show_left_circle(self):
         self.ids['right_circle'].opacity = 0
         self.ids['left_circle'].opacity = 1
-        self.anim_circle(self.ids['left_circle'])
+        self.animate_circle(self.ids['left_circle'])
 
-    def anim_circle(self, the_circle):
+    def animate_circle(self, the_circle):
          Animation.cancel_all(self)
          x = the_circle.x
          y = the_circle.y
-         anim = Animation(x=x, y=y, duration=10, t='in_out_elastic')
+         anim = Animation(x=x-10, y=y-10) + Animation(x=x, y=y, duration=5, t='in_out_elastic')
          anim.start(the_circle)
 
     def no_circles(self):
@@ -139,14 +132,14 @@ class QuestionScreen(Screen):
 
     def first_phrase(self, current_question):
         print self.phrases_A[current_question]
-        self.right_circle()
+        self.show_right_circle()
      #   TTS.speak(self.phrases_A[current_question - 1], TTS.finished)
         self.sounds_A[current_question].bind(on_stop=lambda d: self.second_phrase(current_question))
         self.sounds_A[current_question].play()
 
     def second_phrase(self, current_question):
         print self.phrases_B[current_question]
-        self.left_circle()
+        self.show_left_circle()
     #    TTS.speak(self.phrases_B[current_question - 1], TTS.finished)
         self.sounds_B[current_question].bind(on_stop=lambda d: self.question_phrase())
         self.sounds_B[current_question].play()
@@ -167,12 +160,15 @@ class QuestionScreen(Screen):
         self.ids['B_button'].disabled = False
 
 
-    def next_question(self):
-        print("next_question")
-        self.current_question += 1
+    def disable_buttons(self):
         self.ids['play_again'].opacity = 0
         self.ids['A_button'].disabled = True
         self.ids['B_button'].disabled = True
+
+    def next_question(self):
+        print("next_question")
+        self.current_question += 1
+        self.disable_buttons()
         self.ids['A_button'].name = str(self.current_question ) + '_A'
         self.ids['B_button'].name = str(self.current_question ) + '_B'
 
@@ -189,19 +185,32 @@ class QuestionScreen(Screen):
         self.first_phrase(self.current_question)
 
 
-    def pressed(self, answer):
+    def pressed(self, answer, the_button):
             print("pressed", answer)
             if self.current_question >= self.number_of_questions-1:
                 self.end_game()
             else:
-                Clock.schedule_once(self.delay, 2)
+                #self.animate_flufbuf(the_button)
+                self.disable_buttons()
+                Clock.schedule_once(self.delay, 1)
+
+
+    def animate_flufbuf(self, the_button):
+        #not in use
+        Animation.cancel_all(self)
+        x = the_button.x
+        y = the_button.y
+        anim = Animation(x=x - 10, y=y - 10) + Animation(x=x, y=y, duration=5, t='out_bounce')
+        anim.start(the_button)
+
 
     def delay(self, *args):
         self.next_question()
         return False
 
     def end_game(self):
-        self.the_app.stop()
+        self.ids["the_end"].opacity = 1
+        #self.the_app.stop()
 
 class left_circle(Widget):
     pass
@@ -230,8 +239,13 @@ class MindsetAssessmentApp(App):
         self.sm.current = 'question_screen'
         self.question_screen.pre_post_flag = pre_post_flag # 1 for pre, 2 for post
         print ('condition', self.question_screen.pre_post_flag)
+        self.question_screen.disable_buttons()
         self.question_screen.init_sounds()
-        self.question_screen.introduction1()
+        if (pre_post_flag == 1):
+            self.question_screen.introduction1()
+        else:
+            self.question_screen.introduction2()
+
     #    self.question_screen.next_question()
 
     # def next_question(self):

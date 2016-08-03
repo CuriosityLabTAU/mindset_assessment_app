@@ -77,24 +77,24 @@
         LoggedButton:
             id: A_button
             name: 'A'
-            size: root.width * 0.5 * 456.0 / 1000.0, root.width * 0.5 * 570.0 / 1000.0
-            pos: root.width * 0.80 - self.width * 0.5, root.height * 0.25 - self.height * 0.5
-            on_press: root.pressed(self.name)
-            background_normal: 'images/blue.jpg'
-            background_disabled_normal: 'images/blue.jpg'
-            background_disabled_down: 'images/blue_pressed.jpg'
-            background_down: 'images/blue_pressed.jpg'
+            size: root.width * 0.5 * 288.0 / 500.0, root.width * 0.5 * 360.0 / 500.0
+            pos: root.width * 0.80 - self.width * 0.5, root.height * 0.10
+            on_press: root.pressed(self.name, self)
+            background_normal: 'images/Buffy_glow.gif'
+            background_disabled_normal: 'images/Buffy.gif'
+            background_disabled_down: 'images/Buffy.gif'
+            background_down: 'images/Buffy_down.gif'
 
         LoggedButton:
             id: B_button
             name: 'B'
-            size: root.width * 0.5 * 456.0 / 1000.0, root.width * 0.5 * 570.0 / 1000.0
-            pos: root.width * 0.20 - self.width * 0.5, root.height * 0.25 - self.height * 0.5
-            on_press: root.pressed(self.name)
-            background_normal: 'images/green.jpg'
-            background_disabled_normal: 'images/green.jpg'
-            background_disabled_down: 'images/green_pressed.jpg'
-            background_down: 'images/green_pressed.jpg'
+            size: root.width * 0.5 * 288.0 / 500.0, root.width * 0.5 * 360.0 / 500.0
+            pos: root.width * 0.20 - self.width * 0.5, root.height * 0.10
+            on_press: root.pressed(self.name, self)
+            background_normal: 'images/Fluffy_glow.gif'
+            background_disabled_normal: 'images/Fluffy.gif'
+            background_disabled_down: 'images/Fluffy.gif'
+            background_down: 'images/Fluffy_down.gif'
 
         LoggedButton:
             id: play_again
@@ -107,4 +107,12 @@
             background_disabled_normal: 'images/play_again.png'
             background_disabled_down: 'images/play_again.png'
             background_down: 'images/play_again.png'
+            opacity: 0
+
+        Label:
+            id: the_end
+            text: "Thank You !!!"
+            font_size:80
+            color: 1,0,1,1
+            pos: root.width * 0.5, root.height * 0.8
             opacity: 0
