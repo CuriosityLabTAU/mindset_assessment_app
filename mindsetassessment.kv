@@ -1,0 +1,110 @@
+#:kivy 1.0
+#:import kivy kivy
+#:import win kivy.core.window
+
+<ZeroScreen>:
+    start_button_pre: start_button_pre
+    start_button_post: start_button_post
+    subject_id: subject_id
+    name: 'zero_screen'
+    Widget:
+        LoggedButton:
+            id: start_button_pre
+            name: 'start_button_pre'
+            background_color: 1,0,1,1
+            background_normal: ''
+            text: 'Start Pre'
+            font_size: 16
+            size: root.width * 0.15, root.height * 0.1
+            pos: root.width * 0.65 - self.width * 0.5, root.height * 0.75 - self.height * 0.5
+            on_press: app.start_assessment(1)
+
+        LoggedButton:
+            id: start_button_post
+            name: 'start_button_post'
+            background_color: 1,0,1,1
+            background_normal: ''
+            text: 'Start Post'
+            font_size: 16
+            size: root.width * 0.175, root.height * 0.1
+            pos: root.width * 0.85 - self.width * 0.5, root.height * 0.75 - self.height * 0.5
+            on_press: app.start_assessment(2)
+
+        Label:
+            text: "Subject ID:"
+            font_size: 16
+            size: root.width * 0.175, root.height * 0.1
+            pos: root.width * 0.01 , root.height * 0.75 - self.height * 0.5
+
+        LoggedTextInput:
+            id: subject_id
+            name: 'subject_id'
+            text: ''
+            font_size: 16
+            size: root.width * 0.4, root.height * 0.1
+            pos: root.width * 0.35 - self.width * 0.5, root.height * 0.75 - self.height * 0.5
+
+<QuestionScreen>
+    name: 'question_screen'
+
+    Widget:
+        id: left_circle
+        size: root.width * 0.12, root.width * 0.12
+        pos: root.width * 0.2 - self.width * 0.5, root.height * 0.6
+        size_hint_x: None
+        size_hint_y: None
+        canvas.after:
+            Color:
+                rgba: 0,1,0,1
+            Ellipse:
+                pos: self.pos
+                size: self.size
+
+    Widget:
+        id: right_circle
+        size: root.width * 0.12, root.width * 0.12
+        pos: root.width * 0.8 - self.width * 0.5, root.height * 0.6
+        size_hint_x: None
+        size_hint_y: None
+        canvas.after:
+            Color:
+                rgba: 0,0,1,1
+            Ellipse:
+                pos: self.pos
+                size: self.size
+    Widget:
+        id: the_buttons
+        LoggedButton:
+            id: A_button
+            name: 'A'
+            size: root.width * 0.5 * 456.0 / 1000.0, root.width * 0.5 * 570.0 / 1000.0
+            pos: root.width * 0.80 - self.width * 0.5, root.height * 0.25 - self.height * 0.5
+            on_press: root.pressed(self.name)
+            background_normal: 'images/blue.jpg'
+            background_disabled_normal: 'images/blue.jpg'
+            background_disabled_down: 'images/blue_pressed.jpg'
+            background_down: 'images/blue_pressed.jpg'
+
+        LoggedButton:
+            id: B_button
+            name: 'B'
+            size: root.width * 0.5 * 456.0 / 1000.0, root.width * 0.5 * 570.0 / 1000.0
+            pos: root.width * 0.20 - self.width * 0.5, root.height * 0.25 - self.height * 0.5
+            on_press: root.pressed(self.name)
+            background_normal: 'images/green.jpg'
+            background_disabled_normal: 'images/green.jpg'
+            background_disabled_down: 'images/green_pressed.jpg'
+            background_down: 'images/green_pressed.jpg'
+
+        LoggedButton:
+            id: play_again
+            name: 'play_again'
+            size: 80, 80
+            allow_stretch: True
+            pos: root.width * 0.80, root.height * 0.85
+            on_press: root.pressed_play_again()
+            background_normal: 'images/play_again.png'
+            background_disabled_normal: 'images/play_again.png'
+            background_disabled_down: 'images/play_again.png'
+            background_down: 'images/play_again.png'
+            opacity: 0
