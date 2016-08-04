@@ -191,8 +191,8 @@ class QuestionScreen(Screen):
                 self.end_game()
             else:
                 #self.animate_flufbuf(the_button)
-                self.disable_buttons()
-                Clock.schedule_once(self.delay, 1)
+                #self.disable_buttons()
+                Clock.schedule_once(self.delay, 0.5)
 
 
     def animate_flufbuf(self, the_button):
@@ -210,6 +210,7 @@ class QuestionScreen(Screen):
 
     def end_game(self):
         self.ids["the_end"].opacity = 1
+        self.disable_buttons()
         #self.the_app.stop()
 
 class left_circle(Widget):
