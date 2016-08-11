@@ -11,6 +11,7 @@ from kivy.graphics import *
 from kivy.core.window import Window
 from kivy.core.audio import SoundLoader
 from kivy.clock import Clock
+import numpy as np
 
 class ZeroScreen(Screen):
     pass
@@ -89,9 +90,12 @@ class QuestionScreen(Screen):
 
         self.sounds_A = []
         self.sounds_B = []
+
         for n in range(len(self.phrases_A)):
             self.sounds_A.append(SoundLoader.load("./sounds/" + self.phrases_A[n] + ".wav"))
             self.sounds_B.append(SoundLoader.load("./sounds/" + self.phrases_B[n] + ".wav"))
+
+        self.perm = np.random.permutation(len(self.phrases_A)) # permutation on the question's
 
     def init_circles(self):
         self.ids['left_circle'].opacity = 0
@@ -169,20 +173,20 @@ class QuestionScreen(Screen):
         print("next_question")
         self.current_question += 1
         self.disable_buttons()
-        self.ids['A_button'].name = str(self.current_question ) + '_A'
-        self.ids['B_button'].name = str(self.current_question ) + '_B'
+        self.ids['A_button'].name = str(self.perm[self.current_question] ) + '_A_' + self.phrases_A[self.perm[self.current_question]]
+        self.ids['B_button'].name = str(self.perm[self.current_question] ) + '_B_' + self.phrases_B[self.perm[self.current_question]]
 
    #     self.sm.current = 'question_screen'
-        self.first_phrase(self.current_question)
+        self.first_phrase(self.perm[self.current_question])
 
     def pressed_play_again(self):
         print("press_play_again")
         self.ids['A_button'].disabled = True
         self.ids['B_button'].disabled = True
-        self.ids['A_button'].name = str(self.current_question) + '_A'
-        self.ids['B_button'].name = str(self.current_question) + '_B'
+        self.ids['A_button'].name = str(self.perm[self.current_question]) + '_A_' + self.phrases_A[self.perm[self.current_question]]
+        self.ids['B_button'].name = str(self.perm[self.current_question]) + '_B_' + self.phrases_B[self.perm[self.current_question]]
         #     self.sm.current = 'question_screen'
-        self.first_phrase(self.current_question)
+        self.first_phrase(self.perm[self.current_question])
 
 
     def pressed(self, answer, the_button):
