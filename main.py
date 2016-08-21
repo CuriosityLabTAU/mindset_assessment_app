@@ -225,9 +225,10 @@ class MindsetAssessmentApp(App):
 
     def build(self):
         # initialize logger
-        KL.start([DataMode.file, DataMode.communication, DataMode.ros], self.user_data_dir)
-        KL.log.insert(action=LogAction.data, obj='app', comment='mindset_assessment_app')
-        # KL.start([DataMode.file], "/sdcard/curiosity/")#self.user_data_dir)
+        self.init_communication()
+        # KL.start([DataMode.file, DataMode.communication, DataMode.ros], self.user_data_dir)
+        # KL.log.insert(action=LogAction.data, obj='app', comment='mindset_assessment_app')
+        # # KL.start([DataMode.file], "/sdcard/curiosity/")#self.user_data_dir)
         # TTS.start()
         self.sm = ScreenManager()
 
@@ -239,6 +240,14 @@ class MindsetAssessmentApp(App):
 
         self.sm.current = 'zero_screen'
         return self.sm
+
+    def init_communication(self):
+        KC.start(the_ip='192.168.1.254', the_parents=[self])  # 127.0.0.1
+        KL.start(mode=[DataMode.file, DataMode.communication, DataMode.ros], pathname=self.user_data_dir,
+                 the_ip='192.168.1.254')
+
+    def on_connection(self):
+        KL.log.insert(action=LogAction.data, obj='MindsetAssessmentApp', comment='start')
 
     def start_assessment(self, pre_post_flag):
         self.sm.current = 'question_screen'
