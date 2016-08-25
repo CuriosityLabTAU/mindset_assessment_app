@@ -179,8 +179,8 @@ class QuestionScreen(Screen):
     def question_phrase(self, *args):
         print self.question
         self.repeat_question = True
-        self.enable_buttons()
         self.no_circles()
+        self.enable_buttons()
         #self.sound_question.bind(on_stop=lambda d: Clock.schedule_once(self.enable_buttons,0.5))
         self.sound_question.play()
 
@@ -214,6 +214,7 @@ class QuestionScreen(Screen):
 
     def pressed_play_again(self):
         print("press_play_again")
+        self.sound_question.stop()
         self.disable_buttons()
         #self.ids['A_button'].name = str(self.perm[self.current_question]) + '_A_' + self.phrases_A[self.perm[self.current_question]]
         #self.ids['B_button'].name = str(self.perm[self.current_question]) + '_B_' + self.phrases_B[self.perm[self.current_question]]
