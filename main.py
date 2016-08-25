@@ -82,8 +82,14 @@ class QuestionScreen(Screen):
         self.question = 'which'
         self.sound_question = SoundLoader.load("./sounds/" + self.question + ".wav")
 
-        self.intro1 = 'intro1'
-        self.sound_intro1 = SoundLoader.load("./sounds/" + self.intro1 + ".wav")
+        self.intro1_1 = 'intro1_1'
+        self.sound_intro1_1 = SoundLoader.load("./sounds/" + self.intro1_1 + ".wav")
+
+        self.intro1_2 = 'intro1_2'
+        self.sound_intro1_2 = SoundLoader.load("./sounds/" + self.intro1_2 + ".wav")
+
+        self.intro1_3 = 'intro1_3'
+        self.sound_intro1_3 = SoundLoader.load("./sounds/" + self.intro1_3 + ".wav")
 
         self.intro2 = 'intro2'
         self.sound_intro2 = SoundLoader.load("./sounds/" + self.intro2 + ".wav")
@@ -98,8 +104,9 @@ class QuestionScreen(Screen):
         self.perm = np.random.permutation(len(self.phrases_A)) # permutation on the question's
 
     def init_circles(self):
-        self.ids['left_circle'].opacity = 0
         self.ids['right_circle'].opacity = 0
+        self.ids['left_circle'].opacity = 0
+
 
     def show_right_circle(self):
         self.ids['right_circle'].opacity = 1
@@ -117,21 +124,38 @@ class QuestionScreen(Screen):
          Animation.cancel_all(self)
          x = the_circle.x
          y = the_circle.y
-         anim = Animation(x=x-10, y=y-10) + Animation(x=x, y=y, duration=5, t='in_out_elastic')
+         anim = Animation(x=x, y=y-20, duration=1, t='in_out_circ') + Animation(x=x, y=y, duration=1, t='in_out_circ')
+         #anim.repeat = True
          anim.start(the_circle)
 
     def no_circles(self):
         self.ids['right_circle'].opacity = 0
         self.ids['left_circle'].opacity = 0
 
-    def introduction1(self):
-        print "introduction1"
-        self.sound_intro1.bind(on_stop=lambda d: self.introduction2())
-        self.sound_intro1.play()
+    def introduction1_1(self, *args):
+        print "introduction1_1"
+        self.show_right_circle()
+        self.sound_intro1_1.bind(on_stop=lambda d: Clock.schedule_once(self.introduction1_2, 0.8))
+        self.sound_intro1_1.play()
+
+
+    def introduction1_2(self, *args):
+        print "introduction1_2"
+        self.show_left_circle()
+        self.sound_intro1_2.bind(on_stop=lambda d: self.introduction1_3())
+        self.sound_intro1_2.play()
+
+
+    def introduction1_3(self):
+        print "introduction1_2"
+        self.no_circles()
+        self.sound_intro1_3.bind(on_stop=lambda d: self.introduction2())
+        self.sound_intro1_3.play()
+
 
     def introduction2(self):
         print "introduction2"
-        self.sound_intro2.bind(on_stop=lambda d: self.next_question())
+        self.sound_intro2.bind(on_stop=lambda d: Clock.schedule_once(self.next_question, 2.0))
         self.sound_intro2.play()
 
     def first_phrase(self, current_question):
@@ -145,19 +169,19 @@ class QuestionScreen(Screen):
         print self.phrases_B[current_question]
         self.show_left_circle()
     #    TTS.speak(self.phrases_B[current_question - 1], TTS.finished)
-        self.sounds_B[current_question].bind(on_stop=lambda d: self.question_phrase())
+        self.sounds_B[current_question].bind(on_stop=lambda d: Clock.schedule_once(self.question_phrase,0.5))
         self.sounds_B[current_question].play()
 
 
-    def question_phrase(self):
+    def question_phrase(self, *args):
         print self.question
-        self.no_circles()
-        self.sound_question.bind(on_stop=lambda d: self.enable_buttons())
+        #self.no_circles()
+        self.sound_question.bind(on_stop=lambda d: Clock.schedule_once(self.enable_buttons,0.5))
         self.sound_question.play()
 
         #TTS.speak(self.question, TTS.finished)
 
-    def enable_buttons(self):
+    def enable_buttons(self, *args):
         print 'buttons enabled'
         self.ids['play_again'].opacity = 1
         self.ids['A_button'].disabled = False
@@ -165,11 +189,12 @@ class QuestionScreen(Screen):
 
 
     def disable_buttons(self):
+        print 'buttons disabled'
         self.ids['play_again'].opacity = 0
         self.ids['A_button'].disabled = True
         self.ids['B_button'].disabled = True
 
-    def next_question(self):
+    def next_question(self, *args):
         print("next_question")
         self.current_question += 1
         self.disable_buttons()
@@ -181,10 +206,9 @@ class QuestionScreen(Screen):
 
     def pressed_play_again(self):
         print("press_play_again")
-        self.ids['A_button'].disabled = True
-        self.ids['B_button'].disabled = True
-        self.ids['A_button'].name = str(self.perm[self.current_question]) + '_A_' + self.phrases_A[self.perm[self.current_question]]
-        self.ids['B_button'].name = str(self.perm[self.current_question]) + '_B_' + self.phrases_B[self.perm[self.current_question]]
+        self.disable_buttons()
+        #self.ids['A_button'].name = str(self.perm[self.current_question]) + '_A_' + self.phrases_A[self.perm[self.current_question]]
+        #self.ids['B_button'].name = str(self.perm[self.current_question]) + '_B_' + self.phrases_B[self.perm[self.current_question]]
         #     self.sm.current = 'question_screen'
         self.first_phrase(self.perm[self.current_question])
 
@@ -197,6 +221,7 @@ class QuestionScreen(Screen):
                 #self.animate_flufbuf(the_button)
                 #self.disable_buttons()
                 Clock.schedule_once(self.delay, 0.5)
+                self.disable_buttons()
 
 
     def animate_flufbuf(self, the_button):
@@ -254,9 +279,11 @@ class MindsetAssessmentApp(App):
         self.question_screen.pre_post_flag = pre_post_flag # 1 for pre, 2 for post
         print ('condition', self.question_screen.pre_post_flag)
         self.question_screen.disable_buttons()
+        self.question_screen.init_circles()
         self.question_screen.init_sounds()
+
         if (pre_post_flag == 1):
-            self.question_screen.introduction1()
+            Clock.schedule_once(self.question_screen.introduction1_1, 1.0)
         else:
             self.question_screen.introduction2()
 
