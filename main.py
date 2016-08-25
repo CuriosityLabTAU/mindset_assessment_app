@@ -31,6 +31,7 @@ class QuestionScreen(Screen):
         self.question = None
         self.sound_question = None
         self.pre_post_flag = None
+        self.repeat_question = False
 
         self.sounds_A = []
         self.sounds_B = []
@@ -162,28 +163,33 @@ class QuestionScreen(Screen):
         print self.phrases_A[current_question]
         self.show_right_circle()
      #   TTS.speak(self.phrases_A[current_question - 1], TTS.finished)
-        self.sounds_A[current_question].bind(on_stop=lambda d: self.second_phrase(current_question))
+        if not self.repeat_question:
+            self.sounds_A[current_question].bind(on_stop=lambda d: self.second_phrase(current_question))
         self.sounds_A[current_question].play()
 
     def second_phrase(self, current_question):
         print self.phrases_B[current_question]
         self.show_left_circle()
     #    TTS.speak(self.phrases_B[current_question - 1], TTS.finished)
-        self.sounds_B[current_question].bind(on_stop=lambda d: Clock.schedule_once(self.question_phrase,0.5))
+        if not self.repeat_question:
+            self.sounds_B[current_question].bind(on_stop=lambda d: self.question_phrase())
         self.sounds_B[current_question].play()
 
 
     def question_phrase(self, *args):
         print self.question
-        #self.no_circles()
-        self.sound_question.bind(on_stop=lambda d: Clock.schedule_once(self.enable_buttons,0.5))
+        self.repeat_question = True
+        self.enable_buttons()
+        self.no_circles()
+        #self.sound_question.bind(on_stop=lambda d: Clock.schedule_once(self.enable_buttons,0.5))
         self.sound_question.play()
 
         #TTS.speak(self.question, TTS.finished)
 
-    def enable_buttons(self, *args):
+    def enable_buttons(self):
         print 'buttons enabled'
         self.ids['play_again'].opacity = 1
+        self.ids['play_again'].disabled = False
         self.ids['A_button'].disabled = False
         self.ids['B_button'].disabled = False
 
@@ -191,11 +197,13 @@ class QuestionScreen(Screen):
     def disable_buttons(self):
         print 'buttons disabled'
         self.ids['play_again'].opacity = 0
+        self.ids['play_again'].disabled = True
         self.ids['A_button'].disabled = True
         self.ids['B_button'].disabled = True
 
     def next_question(self, *args):
         print("next_question")
+        self.repeat_question = False
         self.current_question += 1
         self.disable_buttons()
         self.ids['A_button'].name = str(self.perm[self.current_question] ) + '_A_' + self.phrases_A[self.perm[self.current_question]]
@@ -215,6 +223,7 @@ class QuestionScreen(Screen):
 
     def pressed(self, answer, the_button):
             print("pressed", answer)
+            self.sound_question.stop()
             if self.current_question >= self.number_of_questions-1:
                 self.end_game()
             else:
