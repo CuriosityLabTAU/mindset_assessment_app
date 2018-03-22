@@ -13,6 +13,9 @@ from kivy.core.audio import SoundLoader
 from kivy.clock import Clock
 import numpy as np
 
+class SetupScreenRoom(Screen):
+    ip = ''
+
 class ZeroScreen(Screen):
     pass
 
@@ -160,6 +163,7 @@ class QuestionScreen(Screen):
         self.sound_intro2.play()
 
     def first_phrase(self, current_question):
+        KL.log.insert(action=LogAction.play, obj=self.phrases_A[current_question], comment='play_first_audio')
         print self.phrases_A[current_question]
         self.show_right_circle()
      #   TTS.speak(self.phrases_A[current_question - 1], TTS.finished)
@@ -168,6 +172,7 @@ class QuestionScreen(Screen):
         self.sounds_A[current_question].play()
 
     def second_phrase(self, current_question):
+        KL.log.insert(action=LogAction.play, obj=self.phrases_B[current_question], comment='play_second_audio')
         print self.phrases_B[current_question]
         self.show_left_circle()
     #    TTS.speak(self.phrases_B[current_question - 1], TTS.finished)
@@ -214,6 +219,7 @@ class QuestionScreen(Screen):
 
     def pressed_play_again(self):
         print("press_play_again")
+        KL.log.insert(action=LogAction.press, obj="play_again", comment='play_again')
         self.sound_question.stop()
         self.disable_buttons()
         #self.ids['A_button'].name = str(self.perm[self.current_question]) + '_A_' + self.phrases_A[self.perm[self.current_question]]
@@ -224,6 +230,7 @@ class QuestionScreen(Screen):
 
     def pressed(self, answer, the_button):
             print("pressed", answer)
+            KL.log.insert(action=LogAction.press, obj=answer, comment='user_answer')
             self.sound_question.stop()
             if self.current_question >= self.number_of_questions-1:
                 self.end_game()
@@ -259,32 +266,46 @@ class MindsetAssessmentApp(App):
 
 
     def build(self):
-        # initialize logger
-        self.init_communication()
-        # KL.start([DataMode.file, DataMode.communication, DataMode.ros], self.user_data_dir)
-        # KL.log.insert(action=LogAction.data, obj='app', comment='mindset_assessment_app')
-        # # KL.start([DataMode.file], "/sdcard/curiosity/")#self.user_data_dir)
-        # TTS.start()
+
         self.sm = ScreenManager()
+        self.sm.add_widget(SetupScreenRoom(name='setup_screen_room'))
+        self.sm.current = 'setup_screen_room'
 
-        self.zero_screen = ZeroScreen(name='zero_screen')
-        self.sm.add_widget(self.zero_screen)
-
-        self.question_screen = QuestionScreen(name='question_screen',the_app=self)
-        self.sm.add_widget(self.question_screen)
-
-        self.sm.current = 'zero_screen'
         return self.sm
 
-    def init_communication(self):
-        KC.start(the_ip='192.168.1.254', the_parents=[self])  # 127.0.0.1
-        KL.start(mode=[DataMode.file, DataMode.communication, DataMode.ros], pathname=self.user_data_dir,
-                 the_ip='192.168.1.254')
+
+    def init_communication(self, ip_addr):
+        self.local_ip = ip_addr
+        KC.start(the_ip=self.local_ip, the_parents=[self])  # 127.0.0.1
+
+        if ip_addr == "":
+            self.on_connection()
 
     def on_connection(self):
+        self.zero_screen = ZeroScreen(name='zero_screen')
+        self.sm.add_widget(self.zero_screen)
+        self.question_screen = QuestionScreen(name='question_screen',the_app=self)
+        self.sm.add_widget(self.question_screen)
+        self.sm.current = 'zero_screen'
+
+    def press_connect_button(self, ip_addr):
+        # To-Do: save previous ip input
+        print ip_addr
+        self.init_communication(ip_addr)
+
+    def start_assessment(self, pre_post_flag, id, initial):
+        self.subject_id = id
+        self.subject_initial = initial
+        session = "pre" if pre_post_flag == 1 else "post"
+
+        if self.subject_id == "" or self.subject_initial == "":
+            return
+
+        KL.start(mode=[DataMode.file, DataMode.communication, DataMode.ros], pathname=self.user_data_dir,
+                 file_prefix=session+"_"+self.subject_id+"_"+self.subject_initial+"_", the_ip=self.local_ip)
+
         KL.log.insert(action=LogAction.data, obj='MindsetAssessmentApp', comment='start')
 
-    def start_assessment(self, pre_post_flag):
         self.sm.current = 'question_screen'
         self.question_screen.pre_post_flag = pre_post_flag # 1 for pre, 2 for post
         print ('condition', self.question_screen.pre_post_flag)
