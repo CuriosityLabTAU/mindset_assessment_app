@@ -96,7 +96,6 @@
 
 <QuestionScreen>
     name: 'question_screen'
-
     Widget:
         id: left_circle
         size: root.width * 0.12, root.width * 0.12
@@ -151,7 +150,7 @@
             name: 'play_again'
             size: 80, 80
             allow_stretch: True
-            pos: root.width * 0.80, root.height * 0.85
+            pos: root.width * 0.5 - self.width*0.5, root.height * 0.75
             on_press: root.pressed_play_again()
             background_normal: 'images/play_again.png'
             background_disabled_normal: 'images/play_again.png'
