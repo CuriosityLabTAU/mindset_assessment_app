@@ -64,26 +64,34 @@ class QuestionScreen(Screen):
 
     def init_sounds(self):
         if self.pre_post_flag == 1:
-            self.phrases_A = ['growth_02_buffy',
-                              'fixed_03_buffy',
-                              'growth_04_buffy',
-                              'fixed_05_buffy',
-                              'fixed_07_buffy',
-                              'growth_08_buffy',
-                              'fixed_09_buffy',
-                              'growth_10_buffy',
-                              'fixed_11_buffy',
-                              'growth_12_buffy']
-            self.phrases_B = ['fixed_02_fluffy',
-                              'growth_03_fluffy',
-                              'fixed_04_fluffy',
-                              'growth_05_fluffy',
-                              'growth_07_fluffy',
-                              'fixed_08_fluffy',
-                              'growth_09_fluffy',
-                              'fixed_10_fluffy',
-                              'growth_11_fluffy',
-                              'fixed_12_fluffy']
+            self.phrases_A = [
+                    'pre_01_buffy_pos_I_like_to_22k.wav',
+                    'pre_02_buffy_neg_I_like_school_22k.wav',
+                    'pre_03_buffy_neg_I_like_painting_22k.wav',
+                    'pre_04_buffy_neg_I_like_reading_22k.wav',
+                    'pre_05_buffy_pos_When_I_walk_22k.wav',
+                    'pre_06_buffy_pos_I_like_asking_22k.wav',
+                    'pre_07_buffy_pos_I_like_puzzles_22k.wav',
+                    'pre_08_buffy_neg_I_dont_like_22k.wav',
+                    'pre_09_buffy_neg_I_am_not_22k.wav',
+                    'pre_10_buffy_pos_somtimes_things_are_22k.wav',
+                    'pre_11_buffy_pos_I_like_when_22k.wav',
+                    'pre_12_buffy_neg_If_my_friend_22k.wav'
+                    ]
+            self.phrases_B = [
+                    'pre_01_fluffy_neg_I_like_to_22k.wav',
+                    'pre_02_fluffy_pos_I_like_school_22k.wav',
+                    'pre_03_fluffy_pos_I_like_painting_22k.wav',
+                    'pre_04_fluffy_pos_I_like_reading_22k.wav',
+                    'pre_05_fluffy_neg_When_I_walk_22k.wav',
+                    'pre_06_fluffy_neg_When_I_have_22k.wav',
+                    'pre_07_fluffy_neg_I_like_puzzles_22k.wav',
+                    'pre_08_fluffy_pos_I_dont_give_22k.wav',
+                    'pre_09_fluffy_pos_I_like_finding_22k.wav',
+                    'pre_10_fluffy_neg_somethings_in_school_22k.wav',
+                    'pre_11_fluffy_neg_I_like_when_22k.wav',
+                    'pre_12_fluffy_pos_If_my_friend_22k.wav'
+                    ]
         elif self.pre_post_flag == 2:
             self.phrases_A = ['fixed_01_buffy',
                               'growth_02_buffy',
@@ -125,8 +133,8 @@ class QuestionScreen(Screen):
         self.sounds_B = []
 
         for n in range(len(self.phrases_A)):
-            self.sounds_A.append(SoundLoader.load("./sounds/" + self.phrases_A[n] + ".wav"))
-            self.sounds_B.append(SoundLoader.load("./sounds/" + self.phrases_B[n] + ".wav"))
+            self.sounds_A.append(SoundLoader.load("./sounds/longterm/" + self.phrases_A[n]))
+            self.sounds_B.append(SoundLoader.load("./sounds/longterm/" + self.phrases_B[n]))
 
         self.perm = np.random.permutation(len(self.phrases_A)) # permutation on the question's
 
