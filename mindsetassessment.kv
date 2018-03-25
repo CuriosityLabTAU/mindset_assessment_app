@@ -11,7 +11,7 @@
             text: '192.168.122.1'
             text: '132.66.50.139'
             text: '192.168.1.113'
-            font_size: 16
+            font_size: 16 * root.width/800
             multiline: False
             size: root.width * 0.4, root.height * 0.07
             pos: root.width * 0.18, root.height * 0.8 - self.height * 0.5
@@ -22,7 +22,7 @@
             background_color: 0.1,0.5,0.2,1
             background_normal: ''
             text: 'Connect'
-            font_size: 16
+            font_size: 16 * root.width/800
             size: root.width * 0.15, root.height * 0.07
             pos: root.width * 0.62, root.height * 0.8 - self.height * 0.5
             on_press: app.press_connect_button(roscore_ip.text)
@@ -33,7 +33,7 @@
             background_color: 0.5,0.5,0.5,1
             background_normal: ''
             text: 'Skip ROS Connection'
-            font_size: 16
+            font_size: 16 * root.width/800
             size: root.width * 0.25, root.height * 0.07
             pos: root.width * 0.5 - self.width * 0.5, root.height * 0.6
             on_press: app.press_connect_button('')
@@ -42,6 +42,7 @@
     start_button_pre: start_button_pre
     start_button_post: start_button_post
     subject_id: subject_id
+    subject_initial: subject_initial
     name: 'zero_screen'
     Widget:
         LoggedButton:
@@ -50,7 +51,7 @@
             background_color: 1,0,1,1
             background_normal: ''
             text: 'Start Pre'
-            font_size: 16
+            font_size: 16 * root.width/800
             size: root.width * 0.175, root.height * 0.1
             pos: root.width * 0.5 - self.width * 1.5, root.height * 0.5 - self.height * 0.5
             on_press: app.start_assessment(1, subject_id.text, subject_initial.text)
@@ -61,28 +62,28 @@
             background_color: 1,0,1,1
             background_normal: ''
             text: 'Start Post'
-            font_size: 16
+            font_size: 16 * root.width/800
             size: root.width * 0.175, root.height * 0.1
             pos: root.width * 0.5 + self.width * 0.5, root.height * 0.5 - self.height * 0.5
             on_press: app.start_assessment(2, subject_id.text, subject_initial.text)
 
         Label:
             text: "Subject ID:"
-            font_size: 16
+            font_size: 16 * root.width/800
             size: root.width * 0.1, root.height * 0.1
             pos: root.width * 0.06 , root.height * 0.78
 
         LoggedTextInput:
             id: subject_id
             name: 'subject_id'
-            text: ''
-            font_size: 16
+            text: 'p'
+            font_size: 16 * root.width/800
             size: root.width * 0.4, root.height * 0.1
             pos: root.width * 0.5 - self.width * 1.1, root.height * 0.75 - self.height * 0.5
 
         Label:
             text: "Subject Initial:"
-            font_size: 16
+            font_size: 16 * root.width/800
             size: root.width * 0.13, root.height * 0.1
             pos: root.width * 0.54, root.height * 0.78
 
@@ -90,7 +91,7 @@
             id: subject_initial
             name: 'subject_initial'
             text: ''
-            font_size: 16
+            font_size: 16 * root.width/800
             size: root.width * 0.4, root.height * 0.1
             pos: root.width * 0.5 + self.width * 0.1, root.height * 0.75 - self.height * 0.5
 
