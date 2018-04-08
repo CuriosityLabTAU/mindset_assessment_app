@@ -93,26 +93,35 @@ class QuestionScreen(Screen):
                     'pre_12_fluffy_pos_If_my_friend_22k.wav'
                     ]
         elif self.pre_post_flag == 2:
-            self.phrases_A = ['fixed_01_buffy',
-                              'growth_02_buffy',
-                              'fixed_03_buffy',
-                              'growth_04_buffy',
-                              'growth_06_buffy',
-                              'fixed_07_buffy',
-                              'growth_08_buffy',
-                              'fixed_13_buffy',
-                              'growth_16_buffy',
-                              'fixed_17_buffy']
-            self.phrases_B = ['growth_01_fluffy',
-                              'fixed_02_fluffy',
-                              'growth_03_fluffy',
-                              'fixed_04_fluffy',
-                              'fixed_06_fluffy',
-                              'growth_07_fluffy',
-                              'fixed_08_fluffy',
-                              'growth_13_fluffy',
-                              'fixed_16_fluffy',
-                              'growth_17_fluffy']
+            self.phrases_A = [
+                    'post_01_buffy_pos_I_get_very_22k.wav',
+                    'post_02_buffy_neg_I_like_to_22k.wav',
+                    'post_03_buffy_pos_I_like_sports_22k.wav',
+                    'post_04_buffy_neg_I_like_building_22k.wav',
+                    'post_05_buffy_neg_I_like_playing_22k.wav',
+                    'post_06_buffy_pos_If_I_ask_22k.wav',
+                    'post_07_buffy_pos_I_like_puzzles_22k.wav',
+                    'post_08_buffy_neg_I_like_to_22k.wav',
+                    'post_09_buffy_neg_Robots_are_cool_22k.wav',
+                    'post_10_buffy_pos_I_like_school_22k.wav',
+                    'post_11_buffy_neg_I_think_sometimes_22k.wav',
+                    'post_12_buffy_pos_I_think_people_22k.wav'
+                    ]
+            self.phrases_B = [
+                    'post_01_fluffy_neg_I_get_very_22k.wav',
+                    'post_02_fluffy_pos_I_like_to_22k.wav',
+                    'post_03_fluffy_neg_I_like_sports_22k.wav',
+                    'post_04_fluffy_pos_I_like_building_22k.wav',
+                    'post_05_fluffy_pos_I_like_to_22k.wav',
+                    'post_06_fluffy_neg_If_I_ask_22k.wav',
+                    'post_07_fluffy_neg_I_like_puzzles_22k.wav',
+                    'post_08_fluffy_pos_I_like_asking_22k.wav',
+                    'post_09_fluffy_pos_Robots_are_cool_22k.wav',
+                    'post_10_fluffy_neg_I_like_school_22k.wav',
+                    'post_11_fluffy_pos_I_think_if_22k.wav',
+                    'post_12_fluffy_neg_I_think_people_22k.wav'
+                    ]
+                    
         self.number_of_questions = len(self.phrases_A)
         self.question = 'which'
         self.sound_question = SoundLoader.load("./sounds/" + self.question + ".wav")

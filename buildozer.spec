@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = MindsetAssessmentApp
+title = BuffyFluffy
 
 # (str) Package name
-package.name = MindsetAssessmentApp
+package.name = buffyfluffy
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = com.gorengordon.curiosity
