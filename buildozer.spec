@@ -13,13 +13,15 @@ package.domain = com.gorengordon.curiosity
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,json,m4a,gif,txt,wav
+source.include_exts = py,png,jpg,kv,atlas,json,m4a,gif,txt
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec
 
 # (list) List of directory to exclude (let empty to not exclude anything)
-source.exclude_dirs = bin
+#source.exclude_dirs = bin
+source.exclude_dirs = bin, tests, python-for-android
+
 
 # (list) List of exclusions using pattern matching
 #source.exclude_patterns = license,images/*/*.jpg
@@ -33,7 +35,9 @@ version = 2.0
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = kivy,pycrypto,numpy,twisted,plyer,android
+#requirements = kivy,pycrypto,numpy,twisted,plyer,android
+requirements = kivy,pycrypto,numpy,plyer,audiostream,android,incremental==16.10.0, twisted==15.4.0
+
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -57,6 +61,8 @@ orientation = landscape
 
 #
 # author = © Copyright Info
+osx.python_version = 2
+osx.kivy_version = 1.9.1
 
 #
 # Android specific
@@ -66,7 +72,7 @@ orientation = landscape
 fullscreen = 1
 
 # (list) Permissions
-android.permissions = INTERNET,ACCESS_WIFI_STATE,CHANGE_WIFI_STATE,CHANGE_NETWORK_STATE,ACCESS_NETWORK_STATE,CAMERA,READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE
+android.permissions = INTERNET,ACCESS_WIFI_STATE,CHANGE_WIFI_STATE,CHANGE_NETWORK_STATE,ACCESS_NETWORK_STATE,CAMERA,READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE,RECORD_AUDIO
 
 # (int) Android API to use
 # android.api = 14
@@ -93,7 +99,9 @@ android.permissions = INTERNET,ACCESS_WIFI_STATE,CHANGE_WIFI_STATE,CHANGE_NETWOR
 #android.ant_path =
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
-p4a.source_dir = /home/prg/projects/python-for-android
+#p4a.source_dir = /home/prg/projects/python-for-android
+p4a.source_dir=/home/python-for-android
+
 
 # (list) python-for-android whitelist
 #android.p4a_whitelist =
