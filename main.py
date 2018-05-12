@@ -64,33 +64,43 @@ class QuestionScreen(Screen):
 
     def init_sounds(self):
         if self.pre_post_flag == 1:
+
             self.phrases_A = [
-                    'pre_01_buffy_pos_I_like_to_22k.wav',
-                    'pre_02_buffy_neg_I_like_school_22k.wav',
-                    'pre_03_buffy_neg_I_like_painting_22k.wav',
-                    'pre_04_buffy_neg_I_like_reading_22k.wav',
-                    'pre_05_buffy_pos_When_I_walk_22k.wav',
-                    'pre_06_buffy_pos_I_like_asking_22k.wav',
-                    'pre_07_buffy_pos_I_like_puzzles_22k.wav',
-                    'pre_08_buffy_neg_I_dont_like_22k.wav',
-                    'pre_09_buffy_neg_I_am_not_22k.wav',
-                    'pre_10_buffy_pos_somtimes_things_are_22k.wav',
-                    'pre_11_buffy_pos_I_like_when_22k.wav',
-                    'pre_12_buffy_neg_If_my_friend_22k.wav'
+                    'buffy/1.wav',
+                    'buffy/2.wav',
+                    'buffy/3.wav',
+                    'buffy/4.wav',
+                    'buffy/5.wav',
+                    'buffy/6.wav',
+                    'buffy/7.wav',
+                    'buffy/8.wav',
+                    'buffy/9.wav',
+                    'buffy/10.wav',
+                    'buffy/11.wav',
+                    'buffy/12.wav',
+                    'buffy/13.wav',
+                    'buffy/14.wav',
+                    'buffy/15.wav',
+                    'buffy/16.wav'
+
                     ]
             self.phrases_B = [
-                    'pre_01_fluffy_neg_I_like_to_22k.wav',
-                    'pre_02_fluffy_pos_I_like_school_22k.wav',
-                    'pre_03_fluffy_pos_I_like_painting_22k.wav',
-                    'pre_04_fluffy_pos_I_like_reading_22k.wav',
-                    'pre_05_fluffy_neg_When_I_walk_22k.wav',
-                    'pre_06_fluffy_neg_When_I_have_22k.wav',
-                    'pre_07_fluffy_neg_I_like_puzzles_22k.wav',
-                    'pre_08_fluffy_pos_I_dont_give_22k.wav',
-                    'pre_09_fluffy_pos_I_like_finding_22k.wav',
-                    'pre_10_fluffy_neg_somethings_in_school_22k.wav',
-                    'pre_11_fluffy_neg_I_like_when_22k.wav',
-                    'pre_12_fluffy_pos_If_my_friend_22k.wav'
+                    'fluffy/1.wav',
+                    'fluffy/2.wav',
+                    'fluffy/3.wav',
+                    'fluffy/4.wav',
+                    'fluffy/5.wav',
+                    'fluffy/6.wav',
+                    'fluffy/7.wav',
+                    'fluffy/8.wav',
+                    'fluffy/9.wav',
+                    'fluffy/10.wav',
+                    'fluffy/11.wav',
+                    'fluffy/12.wav',
+                    'fluffy/13.wav',
+                    'fluffy/14.wav',
+                    'fluffy/15.wav',
+                    'fluffy/16.wav'
                     ]
         elif self.pre_post_flag == 2:
             self.phrases_A = [
