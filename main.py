@@ -152,8 +152,8 @@ class QuestionScreen(Screen):
         self.sounds_B = []
 
         for n in range(len(self.phrases_A)):
-            self.sounds_A.append(SoundLoader.load("./sounds/longterm/" + self.phrases_A[n]))
-            self.sounds_B.append(SoundLoader.load("./sounds/longterm/" + self.phrases_B[n]))
+            self.sounds_A.append(SoundLoader.load("./sounds/emotion/" + self.phrases_A[n]))
+            self.sounds_B.append(SoundLoader.load("./sounds/emotion/" + self.phrases_B[n]))
 
         self.perm = np.random.permutation(len(self.phrases_A)) # permutation on the question's
 
