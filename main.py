@@ -13,6 +13,7 @@ from kivy.core.audio import SoundLoader
 from kivy.clock import Clock
 import numpy as np
 from os.path import join, dirname
+from phrases import *
 
 try:
     from jnius import autoclass
@@ -63,65 +64,19 @@ class QuestionScreen(Screen):
         self.sounds_B = []
 
     def init_sounds(self):
+        phrases_num = np.arange(12)
         if self.pre_post_flag == 1:
-            self.phrases_A = [
-                    'pre_01_buffy_pos_I_like_to_22k.wav',
-                    'pre_02_buffy_neg_I_like_school_22k.wav',
-                    'pre_03_buffy_neg_I_like_painting_22k.wav',
-                    'pre_04_buffy_neg_I_like_reading_22k.wav',
-                    'pre_05_buffy_pos_When_I_walk_22k.wav',
-                    'pre_06_buffy_pos_I_like_asking_22k.wav',
-                    'pre_07_buffy_pos_I_like_puzzles_22k.wav',
-                    'pre_08_buffy_neg_I_dont_like_22k.wav',
-                    'pre_09_buffy_neg_I_am_not_22k.wav',
-                    'pre_10_buffy_pos_somtimes_things_are_22k.wav',
-                    'pre_11_buffy_pos_I_like_when_22k.wav',
-                    'pre_12_buffy_neg_If_my_friend_22k.wav'
-                    ]
-            self.phrases_B = [
-                    'pre_01_fluffy_neg_I_like_to_22k.wav',
-                    'pre_02_fluffy_pos_I_like_school_22k.wav',
-                    'pre_03_fluffy_pos_I_like_painting_22k.wav',
-                    'pre_04_fluffy_pos_I_like_reading_22k.wav',
-                    'pre_05_fluffy_neg_When_I_walk_22k.wav',
-                    'pre_06_fluffy_neg_When_I_have_22k.wav',
-                    'pre_07_fluffy_neg_I_like_puzzles_22k.wav',
-                    'pre_08_fluffy_pos_I_dont_give_22k.wav',
-                    'pre_09_fluffy_pos_I_like_finding_22k.wav',
-                    'pre_10_fluffy_neg_somethings_in_school_22k.wav',
-                    'pre_11_fluffy_neg_I_like_when_22k.wav',
-                    'pre_12_fluffy_pos_If_my_friend_22k.wav'
-                    ]
+            phrases_num = np.arange(12)
         elif self.pre_post_flag == 2:
-            self.phrases_A = [
-                    'post_01_buffy_pos_I_get_very_22k.wav',
-                    'post_02_buffy_neg_I_like_to_22k.wav',
-                    'post_03_buffy_pos_I_like_sports_22k.wav',
-                    'post_04_buffy_neg_I_like_building_22k.wav',
-                    'post_05_buffy_neg_I_like_playing_22k.wav',
-                    'post_06_buffy_pos_If_I_ask_22k.wav',
-                    'post_07_buffy_pos_I_like_puzzles_22k.wav',
-                    'post_08_buffy_neg_I_like_to_22k.wav',
-                    'post_09_buffy_neg_Robots_are_cool_22k.wav',
-                    'post_10_buffy_pos_I_like_school_22k.wav',
-                    'post_11_buffy_neg_I_think_sometimes_22k.wav',
-                    'post_12_buffy_pos_I_think_people_22k.wav'
-                    ]
-            self.phrases_B = [
-                    'post_01_fluffy_neg_I_get_very_22k.wav',
-                    'post_02_fluffy_pos_I_like_to_22k.wav',
-                    'post_03_fluffy_neg_I_like_sports_22k.wav',
-                    'post_04_fluffy_pos_I_like_building_22k.wav',
-                    'post_05_fluffy_pos_I_like_to_22k.wav',
-                    'post_06_fluffy_neg_If_I_ask_22k.wav',
-                    'post_07_fluffy_neg_I_like_puzzles_22k.wav',
-                    'post_08_fluffy_pos_I_like_asking_22k.wav',
-                    'post_09_fluffy_pos_Robots_are_cool_22k.wav',
-                    'post_10_fluffy_neg_I_like_school_22k.wav',
-                    'post_11_fluffy_pos_I_think_if_22k.wav',
-                    'post_12_fluffy_neg_I_think_people_22k.wav'
-                    ]
-                    
+            phrases_num = np.arange(12) + 12
+        elif self.pre_post_flag == 3:
+            phrases_num = [16,3,13,11,6,10,2,7,1,21,12,20]
+        elif self.pre_post_flag == 4:
+            phrases_num = [23,5,0,17,4,15,14,22,18,9,19,8]
+
+        self.phrases_A = [phrases[i] for i in phrases_num]
+        self.phrases_B = [phrases[i + 24] for i in phrases_num]
+
         self.number_of_questions = len(self.phrases_A)
         self.question = 'which'
         self.sound_question = SoundLoader.load("./sounds/" + self.question + ".wav")
@@ -150,7 +105,6 @@ class QuestionScreen(Screen):
     def init_circles(self):
         self.ids['right_circle'].opacity = 0
         self.ids['left_circle'].opacity = 0
-
 
     def show_right_circle(self):
         self.ids['right_circle'].opacity = 1
@@ -354,7 +308,15 @@ class MindsetAssessmentApp(App):
     def start_assessment(self, pre_post_flag, id, initial):
         self.subject_id = id
         self.subject_initial = initial
-        session = "pre" if pre_post_flag == 1 else "post"
+        session = "pre"
+        if pre_post_flag == 1:
+            session = "pre"
+        elif pre_post_flag == 2:
+            session = "post"
+        elif pre_post_flag == 3:
+            session = "post_3"
+        elif pre_post_flag == 4:
+            session = "post_4"
 
         if self.subject_id == "" or self.subject_initial == "":
             return
@@ -379,10 +341,14 @@ class MindsetAssessmentApp(App):
 
         if (pre_post_flag == 1):
             Clock.schedule_once(self.question_screen.introduction1_1, 1.0)
-        else:
+        elif pre_post_flag == 2:
             self.question_screen.introduction2()
+        elif pre_post_flag == 3:
+            Clock.schedule_once(self.question_screen.introduction1_1, 1.0)
+        elif pre_post_flag == 4:
+            Clock.schedule_once(self.question_screen.introduction1_1, 1.0)
 
-    #    self.question_screen.next_question()
+            #    self.question_screen.next_question()
 
     # def next_question(self):
     #     self.current_question += 1
