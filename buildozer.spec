@@ -13,7 +13,7 @@ package.domain = com.gorengordon.curiosity
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,json,m4a,gif,txt
+source.include_exts = py,png,jpg,kv,atlas,json,m4a,gif,txt,wav
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec
@@ -159,7 +159,7 @@ p4a.source_dir=/home/python-for-android
 #ios.codesign.debug = "iPhone Developer: <lastname> <firstname> (<hexstring>)"
 
 # (str) Name of the certificate to use for signing the release version
-#ios.codesign.release = %(ios.codesign.debug)s
+#ios.codesign.release = %(ios.codesign.debug)
 
 
 [buildozer]
